@@ -1,0 +1,165 @@
+unit UMySQLHelper;
+
+interface
+
+uses
+   SysUtils,StdCtrls,Classes,Variants,DB,SqlExpr,DBXMySQL;
+
+type
+  TMySQLHelper = class(TObject)
+  private
+    _PORT          : Integer;
+    _HOST          : string;
+    _DATABASE      : string;
+    _USER_NAME     : string;
+    _PASSWORD      : string;
+    _SERVERCHARSET : string;
+    _SQLQuery      : TSQLQuery;
+    _SQLConnection : TSQLConnection;
+
+    procedure Set_PORT(const Value: Integer);
+    procedure Set_HOST(const Value: string);
+    procedure Set_DATABASE (const Value: string);
+    procedure Set_USER_NAME(const Value: string);
+    procedure Set_PASSWORD (const Value: string);
+    procedure Set_SERVERCHARSET(const Value: string);
+    function  MySQLConnection:TSQLConnection;
+
+  public
+    constructor Create; overload;
+    property Post:Integer write Set_PORT;
+    property Host:string write Set_HOST;
+    property Database:string write Set_DATABASE;
+    property User_name:string write Set_USER_NAME;
+    property Password:string write Set_PASSWORD;
+    property ServerCharSet:string write Set_SERVERCHARSET;
+
+    function ExecSQL(const SQL:string):Integer;
+    function Query(const SQL:string):TSQLQuery;
+    procedure MySQLClose;
+  end;
+
+implementation
+
+  //初始化
+  constructor TMySQLHelper.Create;
+  begin
+    _HOST := '127.0.0.1';
+    _PORT := 3306;
+    _SERVERCHARSET := 'utf8';
+  end;
+
+  //执行 SQL 语句 INSERT , UPDATE , DELETE  返回影响行数
+  function TMySQLHelper.ExecSQL(const SQL:string):Integer;
+  begin
+    if not Assigned(_SQLQuery) then
+      _SQLQuery := TSQLQuery.Create(nil);
+    with _SQLQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQLConnection := MySQLConnection;
+      SQLConnection.LoginPrompt:=false;
+
+    end;
+    try
+      _SQLQuery.SQL.Add(SQL);
+      result := _SQLQuery.ExecSQL;
+    except on E: Exception do
+      raise Exception.Create('SQL语句执行失败 ：'+E.Message);
+    end;
+    MySQLClose;
+  end;
+
+  //执行 SQL 语句 Select 返回 数据集
+  function TMySQLHelper.Query(const SQL:string):TSQLQuery;
+  begin
+    if not Assigned(_SQLQuery) then
+       _SQLQuery := TSQLQuery.Create(nil);
+    with _SQLQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQLConnection := MySQLConnection;
+    end;
+    try
+      _SQLQuery.SQL.Add(SQL);
+      _SQLQuery.Open;
+      _SQLQuery.Active := true;
+      result := _SQLQuery;
+    except on E: Exception do
+      raise Exception.Create('SQL语句查询失败 ：'+E.Message);
+    end;
+  end;
+
+  //关闭连接
+  procedure TMySQLHelper.MySQLClose;
+  begin
+    _SQLQuery.Close;
+    _SQLConnection.Close;
+  end;
+
+  //连接MySQL 返回 TSQLConnection
+  function TMySQLHelper.MySQLConnection:TSQLConnection;
+  begin
+    if not Assigned(_SQLConnection) then
+       _SQLConnection := TSQLConnection.Create(nil);
+    with _SQLConnection do
+      begin
+        Close;
+        GetDriverFunc := 'getSQLDriverMYSQL';
+        LibraryName := 'dbxmys.dll';
+        VendorLib := 'LIBMYSQL.dll';
+        DriverName:= 'MySQL';
+        Params.Values['drivername']:= 'MySQL';
+        Params.Values['port']      := IntToStr(_PORT);
+        Params.Values['hostname']  := _HOST;
+        Params.Values['database']  := _DATABASE;
+        Params.Values['user_name'] := _USER_NAME;
+        Params.Values['password']  := _PASSWORD;
+        Params.Values['ServerCharSet'] := _SERVERCHARSET;
+      end;
+    try
+      _SQLConnection.Open;
+      _SQLConnection.Connected := true;
+      result := _SQLConnection;
+    except on E: Exception do
+      raise Exception.Create('数据库连接错误：'+E.Message);
+    end;
+  end;
+
+
+  procedure TMySQLHelper.Set_PORT(const Value: Integer);
+  begin
+    if Value<>0 then
+       _PORT := Value
+  end;
+
+  procedure TMySQLHelper.Set_HOST (const Value: string);
+  begin
+    if Value<>'' then
+       _HOST := Value
+  end;
+
+  procedure TMySQLHelper.Set_DATABASE (const Value: string);
+  begin
+    _DATABASE := Value
+  end;
+
+  procedure TMySQLHelper.Set_USER_NAME (const Value: string);
+  begin
+    _USER_NAME := Value;
+  end;
+
+  procedure TMySQLHelper.Set_PASSWORD (const Value: string);
+  begin
+    _PASSWORD := Value;
+  end;
+
+  procedure TMySQLHelper.Set_SERVERCHARSET (const Value: string);
+   begin
+    if Value<>'' then
+       _SERVERCHARSET := Value
+  end;
+
+end.

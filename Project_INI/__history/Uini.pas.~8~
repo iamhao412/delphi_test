@@ -1,0 +1,17 @@
+unit Uini;
+
+interface
+uses
+  IniFiles;
+
+
+var
+  myInifile : Tinifile;
+  Filename : string;
+implementation
+  Filename:=ExtractFilePath(Paramstr(0))+'program.ini';
+
+  myInifile := Tinifile.Create(filename);
+
+
+end.

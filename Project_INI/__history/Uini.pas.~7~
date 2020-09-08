@@ -1,0 +1,15 @@
+unit Uini;
+
+interface
+uses
+  IniFiles;
+
+
+var
+  myInifile : Tinifile;
+implementation
+
+  myInifile := Tinifile.Create(filename);
+
+
+end.

@@ -1,0 +1,14 @@
+unit Utest;
+
+interface
+
+type
+  TBass = class abstract(TObject)
+    procedure Proc;
+    function Fun: string; virtual; abstract;
+  end;
+
+implementation
+
+end.
+

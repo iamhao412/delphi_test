@@ -1,0 +1,30 @@
+unit Utest;
+
+interface
+
+uses
+  Vcl.Dialogs;
+
+type
+  TBass = class (TObject)
+    procedure Proc;
+    function Fun: string; virtual; abstract;
+  end;
+
+
+var
+bass : TBass;
+
+implementation
+
+{ TBass }
+
+procedure TBass.Proc;
+begin
+  ShowMessage('1');
+end;
+
+
+
+end.
+

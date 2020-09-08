@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899-12-30 00:00:00.000.486,D:\delphi\Projects\ProjectMysql\Umain.pas=D:\delphi\Projects\Unit6.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.386,D:\delphi\Projects\ProjectMysql\UMySQLHelper.pas=D:\delphi\Projects\ProjectMysql\Unit5.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.486,D:\delphi\Projects\ProjectMysql\Umain.dfm=D:\delphi\Projects\Unit6.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.995,D:\delphi\Projects\ProjectMysql\Utest.pas=D:\delphi\Projects\ProjectMysql\Unit5.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.215,=D:\delphi\Projects\ProjectMysql\Unit5.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.724,D:\delphi\Projects\ProjectMysql\ProjectMysql.dproj=D:\delphi\Projects\Project2.dproj</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.811,=D:\delphi\Projects\Unit6.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.831,=D:\delphi\Projects\ProjectMysql\Unit5.pas</Transaction>
+  </Transactions>
+</BorlandProject>

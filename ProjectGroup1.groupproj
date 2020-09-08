@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{A4260AA5-B703-41D9-957B-13A56D8FF377}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="MySQL-demo(DELPHI)\ProjectMYSQL_demo.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ProjectMysql\ProjectMysql.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="project_SearchDIR\Project_SearchDIR.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Project_INI\ProjectINI.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ProjectMYSQL_demo">
+        <MSBuild Projects="MySQL-demo(DELPHI)\ProjectMYSQL_demo.dproj"/>
+    </Target>
+    <Target Name="ProjectMYSQL_demo:Clean">
+        <MSBuild Projects="MySQL-demo(DELPHI)\ProjectMYSQL_demo.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ProjectMYSQL_demo:Make">
+        <MSBuild Projects="MySQL-demo(DELPHI)\ProjectMYSQL_demo.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ProjectMysql">
+        <MSBuild Projects="ProjectMysql\ProjectMysql.dproj"/>
+    </Target>
+    <Target Name="ProjectMysql:Clean">
+        <MSBuild Projects="ProjectMysql\ProjectMysql.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ProjectMysql:Make">
+        <MSBuild Projects="ProjectMysql\ProjectMysql.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Project_SearchDIR">
+        <MSBuild Projects="project_SearchDIR\Project_SearchDIR.dproj"/>
+    </Target>
+    <Target Name="Project_SearchDIR:Clean">
+        <MSBuild Projects="project_SearchDIR\Project_SearchDIR.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Project_SearchDIR:Make">
+        <MSBuild Projects="project_SearchDIR\Project_SearchDIR.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ProjectINI">
+        <MSBuild Projects="Project_INI\ProjectINI.dproj"/>
+    </Target>
+    <Target Name="ProjectINI:Clean">
+        <MSBuild Projects="Project_INI\ProjectINI.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ProjectINI:Make">
+        <MSBuild Projects="Project_INI\ProjectINI.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ProjectMYSQL_demo;ProjectMysql;Project_SearchDIR;ProjectINI"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ProjectMYSQL_demo:Clean;ProjectMysql:Clean;Project_SearchDIR:Clean;ProjectINI:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ProjectMYSQL_demo:Make;ProjectMysql:Make;Project_SearchDIR:Make;ProjectINI:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

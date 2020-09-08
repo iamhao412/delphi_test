@@ -1,0 +1,10 @@
+连接好sqlQuery1-sqlconnection至数据库后；
+利用datasetProvider1,设置属性dataset为sqlQuery1
+利用Clientdataset1，设置属性ProviderName为DatasetProvider1
+利用Datasource1，设置属性Dataset为ClientDataset1;
+利用DBGrid，设置属性Datasource为Datasource1;
+即可。
+SqlQuery的数据集为单向的数据集，移动记录时中只能使用First,Next;不能向回移动。
+期数据也不能直接通过等控件修改,只能通过sql语句修改,如：update等；
+变通方法如前述通过ClientDataset修改。
+也可以利用simpledataset或用provider和clientdataset和datasource关联,并且最好把getmatedata和nomatedata属性为false;

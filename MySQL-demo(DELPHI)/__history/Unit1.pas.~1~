@@ -1,0 +1,97 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Data.SqlExpr,
+  System.IniFiles, Data.FMTBcd, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Datasnap.DBClient, SimpleDS, Data.DBXMySQL, Datasnap.Provider;
+
+type
+  TForm1 = class(TForm)
+    btn_Select: TButton;
+    edt_Select: TEdit;
+    SQLConnection1: TSQLConnection;
+    DataSource1: TDataSource;
+    DBGrid1: TDBGrid;
+    SQLQuery1: TSQLQuery;
+    DataSetProvider1: TDataSetProvider;
+    ClientDataSet1: TClientDataSet;
+    lbl_drivername: TLabel;
+    edt_drivername: TEdit;
+    lbl_hostname: TLabel;
+    edt_hostname: TEdit;
+    lbl_Port: TLabel;
+    edt_Port: TEdit;
+    lbl_User: TLabel;
+    edt_User: TEdit;
+    lbl_Password: TLabel;
+    edt_Password: TEdit;
+    lbl_database: TLabel;
+    edt_database: TEdit;
+    lbl_ServerCharSet: TLabel;
+    edt_ServerCharSet: TEdit;
+    btn_Log: TButton;
+    procedure btn_SelectClick(Sender: TObject);
+    procedure btn_LogClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+  inifile: TIniFile;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.btn_LogClick(Sender: TObject);
+begin
+  try
+    with SQLConnection1 do
+    begin
+      Close;
+      GetDriverFunc := 'getSQLDriverMYSQL';
+      LibraryName := 'dbxmys.dll';
+      VendorLib := 'LIBMYSQL.dll';
+      DriverName := 'MySQL';
+      Params.Values['drivername'] := edt_drivername.Text;
+      Params.Values['port'] := edt_Port.Text;
+      Params.Values['hostname'] := edt_hostname.Text;
+      Params.Values['database'] := edt_database.Text;
+      Params.Values['user_name'] := edt_User.Text;
+      Params.Values['password'] := edt_Password.Text;
+      Params.Values['ServerCharSet'] := edt_ServerCharSet.Text;
+      Open;
+      Connected := True;
+    end;
+  except
+    ShowMessage('µÇÂ½Ê§°Ü£¡');
+  end;
+end;
+
+procedure TForm1.btn_SelectClick(Sender: TObject);
+begin
+  try
+    with SQLQuery1 do
+    begin
+      Close;
+      SQL.Clear;
+      SQLConnection := SQLConnection1;
+      SQL.Add(edt_Select.Text);
+      Open;
+      Active := True;
+    end;
+    ClientDataSet1.Active := True;
+  except
+    on e: Exception do
+      ShowMessage(e.Message);
+  end;
+end;
+
+end.
